@@ -1,0 +1,15 @@
+﻿{
+  "Descriptor": {
+    "UId": "881e1304-d404-3dd6-c40e-96be6051b3b0",
+    "Name": "UsrMain",
+    "ModifiedOnUtc": "\/Date(1710000487000)\/",
+    "Maintainer": "Fishev",
+    "DependsOn": [
+      {
+        "UId": "613fd913-be03-46ce-909b-f44e4225469e",
+        "PackageVersion": "7.8.0",
+        "Name": "UIv2"
+      }
+    ]
+  }
+}

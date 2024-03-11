@@ -1,0 +1,14 @@
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\bin\Debug\net8.0\GbsBpmsoft.ConsoleApp.exe
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\bin\Debug\net8.0\GbsBpmsoft.ConsoleApp.deps.json
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\bin\Debug\net8.0\GbsBpmsoft.ConsoleApp.runtimeconfig.json
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\bin\Debug\net8.0\GbsBpmsoft.ConsoleApp.dll
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\bin\Debug\net8.0\GbsBpmsoft.ConsoleApp.pdb
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\obj\Debug\net8.0\GbsBpmsoft.ConsoleApp.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\obj\Debug\net8.0\GbsBpmsoft.ConsoleApp.AssemblyInfoInputs.cache
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\obj\Debug\net8.0\GbsBpmsoft.ConsoleApp.AssemblyInfo.cs
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\obj\Debug\net8.0\GbsBpmsoft.ConsoleApp.csproj.CoreCompileInputs.cache
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\obj\Debug\net8.0\GbsBpmsoft.ConsoleApp.dll
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\obj\Debug\net8.0\refint\GbsBpmsoft.ConsoleApp.dll
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\obj\Debug\net8.0\GbsBpmsoft.ConsoleApp.pdb
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\obj\Debug\net8.0\GbsBpmsoft.ConsoleApp.genruntimeconfig.cache
+D:\Projects\GbsBpmsoft\GbsBpmsoft.ConsoleApp\obj\Debug\net8.0\ref\GbsBpmsoft.ConsoleApp.dll
