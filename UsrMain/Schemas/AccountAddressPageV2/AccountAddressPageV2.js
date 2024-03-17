@@ -9,52 +9,54 @@
 				dataValueType: Terrasoft.DataValueType.BOOLEAN,
 				value: false,
 			},
+
+			/**
+			 * Тип адреса Контрагента.
+			 */
+			"AddressType": {
+				dataValueType: this.Terrasoft.DataValueType.LOOKUP,
+				dependencies: [{
+					columns: [ "AddressType" ],
+					methodName: "checkAlreadyHasDeliveryType"
+				}]
+			},
 		},
 		methods: {
-			/**
-			 * @inheritdoc TTerrasoft.BaseEntityPage#getParentMethod
-			 * @overridden
-			 */
-			getParentMethod: function() {
-				let method, superMethod = 
-						(method = this.getParentMethod.caller) && 
-						(method.$previous ||
-							((method = method.$owner 
-								? method 
-								: method.caller) &&
-							method.$owner.superclass[method.$name]));
-
-				return superMethod;
-			},
+			setValidationConfig: function() {
+                this.callParent(arguments);
+				 
+                this.addColumnValidator("AddressType", this.addressTypeValidator);
+            },
+			
+			addressTypeValidator: function(value) {
+                let invalidMessage = "";
+                let fullInvalidMessage = ""
+				
+				if (this.get("IsAlreadyHasDeliveryType")) {
+					fullInvalidMessage = this.get("Resources.Strings.AlreadyHasDeliveryType")
+					invalidMessage = this.get("Resources.Strings.AlreadyHasDeliveryType")
+				}
+				
+				return {
+					fullInvalidMessage: invalidMessage,
+   					invalidMessage: invalidMessage
+				};
+            },
 			
 			/**
-			 * @inheritdoc Terrasoft.BaseEntityPage#save
-			 * @override
+			 * @inheritdoc Terrasoft.BasePageV2#onEntityInitialized
+			 * @overridden
 			 */
-			save: function() {
-				let parentSave = this.getParentMethod();
-				let parentArguments = arguments;
+			onEntityInitialized: function() {
+				this.callParent(arguments);
 				
-				this.Terrasoft.chain(
-					function(next) {
-						this.checkAlreadyHasDeliveryType(next);
-					},
-					function() {
-						if (this.get("IsAlreadyHasDeliveryType")) {
-							this.Terrasoft.showErrorMessage(this.get("Resources.Strings.AlreadyHasDeliveryType"));
-							this.set("IsAlreadyHasDeliveryType", false)
-						} else {
-							parentSave.apply(this, parentArguments);
-						}
-					},
-					this
-				)
+				this.checkAlreadyHasDeliveryType();
 			},
 			
 			/**
 			 * Проверяет, имеется ли адрес с таким типом доствки у контрагента.
 			 */
-			checkAlreadyHasDeliveryType: function(callback, scope, args) {
+			checkAlreadyHasDeliveryType: function() {
 				let accountAddress = this.Ext.create("Terrasoft.EntitySchemaQuery", "AccountAddress");
 
 				accountAddress.addColumn("Id", "Id");
@@ -84,8 +86,6 @@
 					if (response.collection.collection.length !== 0) {
 						this.set("IsAlreadyHasDeliveryType", true)
 					}
-					 
-					this.Ext.callback(callback, scope || this, args || []);
 				}, this);
 			},
 		},
