@@ -27,8 +27,8 @@
 		/// <param name="sender">Добавленная сущность.</param>
 		/// <param name="e">The <see cref="T:Terrasoft.Core.Entities.EntityAfterEventArgs" /> instance containing the
 		/// event data.</param>
-		public override void OnSaved(object sender, EntityAfterEventArgs e) {
-			base.OnSaved(sender, e);
+		public override void OnInserted(object sender, EntityAfterEventArgs e) {
+			base.OnInserted(sender, e);
 			
 			var entity = (Entity) sender;
         	var userConnection = entity.UserConnection;

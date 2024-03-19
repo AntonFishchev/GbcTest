@@ -24,13 +24,14 @@
         [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped,
         ResponseFormat = WebMessageFormat.Json)]
         public int GetCountAccountWithSubstring(string substring) {	
-			var esq = new EntitySchemaQuery(UserConnection.EntitySchemaManager, "Account");
-            var colName = esq.AddColumn("Name");
-
-            var esqFilter = esq.CreateFilterWithParameters(FilterComparisonType.Contain, "Name", substring);
-            esq.Filters.Add(esqFilter);
-			
-            return esq.GetEntityCollection(UserConnection).Count;
+			var select = new Select(UserConnection)
+					.Column(Func.Count("Name")).As("Count")
+				.From("Account")
+				.Where("Name")
+					.IsLike(Column.Parameter($"%{substring}%"))
+				as Select;
+				
+			return select.ExecuteScalar<int>();
         }
     }
 }

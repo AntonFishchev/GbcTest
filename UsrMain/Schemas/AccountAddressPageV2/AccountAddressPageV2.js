@@ -1,62 +1,41 @@
  define("AccountAddressPageV2", [], function() {
 	return {
 		entitySchemaName: "AccountAddress",
-		attributes: {
-			/**
-			 * Адрес с таким типом доствки уже имеется у контрагента.
-			 */
-			"IsAlreadyHasDeliveryType": {
-				dataValueType: Terrasoft.DataValueType.BOOLEAN,
-				value: false,
-			},
-
-			/**
-			 * Тип адреса Контрагента.
-			 */
-			"AddressType": {
-				dataValueType: this.Terrasoft.DataValueType.LOOKUP,
-				dependencies: [{
-					columns: [ "AddressType" ],
-					methodName: "checkAlreadyHasDeliveryType"
-				}]
-			},
-		},
 		methods: {
-			setValidationConfig: function() {
-                this.callParent(arguments);
-				 
-                this.addColumnValidator("AddressType", this.addressTypeValidator);
-            },
-			
-			addressTypeValidator: function(value) {
-                let invalidMessage = "";
-                let fullInvalidMessage = ""
-				
-				if (this.get("IsAlreadyHasDeliveryType")) {
-					fullInvalidMessage = this.get("Resources.Strings.AlreadyHasDeliveryType")
-					invalidMessage = this.get("Resources.Strings.AlreadyHasDeliveryType")
-				}
-				
-				return {
-					fullInvalidMessage: invalidMessage,
-   					invalidMessage: invalidMessage
-				};
-            },
-			
 			/**
-			 * @inheritdoc Terrasoft.BasePageV2#onEntityInitialized
+			 * @inheritDoc BasePageV2#asyncValidate
 			 * @overridden
 			 */
-			onEntityInitialized: function() {
-				this.callParent(arguments);
-				
-				this.checkAlreadyHasDeliveryType();
+			asyncValidate: function(callback, scope) {
+				this.callParent([function(response) {
+					if (!this.validateResponse(response)) {
+						return;
+					}
+					
+					Terrasoft.chain(
+						function(next) {
+							this.validateDeliveryType(function(response) {
+								if (this.validateResponse(response)) {
+									next();
+								}
+							}, this);
+						},
+						function(next) {
+							callback.call(scope, response);
+							next();
+						}, this);
+					}, this]);
 			},
 			
+			
 			/**
-			 * Проверяет, имеется ли адрес с таким типом доствки у контрагента.
+			 * Валидирует поле "Тип адреса".
 			 */
-			checkAlreadyHasDeliveryType: function() {
+			validateDeliveryType: function(callback, scope) {
+				let result = {
+					success: true
+				};
+				
 				let accountAddress = this.Ext.create("Terrasoft.EntitySchemaQuery", "AccountAddress");
 
 				accountAddress.addColumn("Id", "Id");
@@ -84,8 +63,11 @@
 					}
 					
 					if (response.collection.collection.length !== 0) {
-						this.set("IsAlreadyHasDeliveryType", true)
+						result.message = this.get("Resources.Strings.AlreadyHasDeliveryType");
+						result.success = false;
 					}
+					
+					callback.call(scope || this, result);
 				}, this);
 			},
 		},
